@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Lora:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#F4EFE4;}
+  image-slot{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  ::selection{background:#A8531F;color:#fff;}
+</style>
+</helmet>
+<div style="font-family:'Hanken Grotesk',system-ui,sans-serif;background:#F4EFE4;color:#26241D;min-height:100vh;-webkit-font-smoothing:antialiased;">
+
+  <!-- ===================== NAV ===================== -->
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:50;background:{{ navBg }};box-shadow:{{ navShadow }};transition:background .3s ease;">
+    <div style="max-width:1240px;margin:0 auto;padding:14px clamp(15px,4vw,22px);display:flex;align-items:center;justify-content:space-between;gap:14px;">
+      <button onClick="{{ go_home }}" style="display:flex;align-items:center;background:none;border:none;cursor:pointer;padding:0;text-align:left;">
+        <span style="font-family:'Lora',Georgia,serif;font-style:italic;font-weight:700;font-size:clamp(21px,5.4vw,28px);color:#fff;letter-spacing:0.01em;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.18);">De Lange Slag</span>
+      </button>
+
+      <sc-if value="{{ desktopNav }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:4px;">
+          <button onClick="{{ go_home }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_home }};">Home</button>
+          <button onClick="{{ go_nieuws }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_nieuws }};">Nieuws</button>
+          <button onClick="{{ go_agenda }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_agenda }};">Agenda</button>
+          <button onClick="{{ go_fotoboek }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_fotoboek }};">Fotoboek</button>
+          <button onClick="{{ go_verkoop }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_verkoop }};">Verkoop</button>
+          <button onClick="{{ go_promotie }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_promotie }};">Promotie</button>
+          <button onClick="{{ go_links }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_links }};">Links</button>
+          <button onClick="{{ go_contact }}" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:8px 11px;color:{{ nc_contact }};">Contact</button>
+          <button onClick="{{ go_lidworden }}" style="margin-left:8px;background:#0F3B18;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:11px 20px;border-radius:4px;">Lid worden</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mobileNav }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button onClick="{{ go_lidworden }}" style="background:#0F3B18;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 16px;border-radius:4px;">Lid worden</button>
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:42px;height:42px;border-radius:10px;border:1px solid rgba(255,255,255,0.5);background:rgba(255,255,255,0.14);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+            <span style="width:18px;height:2px;background:#fff;border-radius:2px;"></span>
+            <span style="width:18px;height:2px;background:#fff;border-radius:2px;"></span>
+            <span style="width:18px;height:2px;background:#fff;border-radius:2px;"></span>
+          </button>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="border-top:1px solid rgba(255,255,255,0.2);background:#15691F;animation:slideDown .25s ease;">
+        <div style="max-width:1240px;margin:0 auto;padding:8px 16px 16px;display:flex;flex-direction:column;">
+          <button onClick="{{ go_home }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_home }};">Home</button>
+          <button onClick="{{ go_nieuws }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_nieuws }};">Nieuws</button>
+          <button onClick="{{ go_agenda }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_agenda }};">Agenda</button>
+          <button onClick="{{ go_fotoboek }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_fotoboek }};">Fotoboek</button>
+          <button onClick="{{ go_verkoop }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_verkoop }};">Verkoop</button>
+          <button onClick="{{ go_promotie }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_promotie }};">Promotie</button>
+          <button onClick="{{ go_links }}" style="text-align:left;background:none;border:none;border-bottom:1px solid #E7DECF;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_links }};">Links</button>
+          <button onClick="{{ go_contact }}" style="text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px 8px;color:{{ nc_contact }};">Contact</button>
+        </div>
+      </div>
+    </sc-if>
+  </nav>
+  <sc-if value="{{ notHome }}" hint-placeholder-val="{{ false }}"><div style="height:72px;"></div></sc-if>
+
+  <!-- ===================== HOME ===================== -->
+  <sc-if value="{{ show_home }}" hint-placeholder-val="{{ true }}">
+  <main style="animation:fadeUp .45s ease;">
+
+    <!-- HERO -->
+    <section style="position:relative;height:100vh;min-height:600px;overflow:hidden;background:#1B2817;">
+      <image-slot id="dls-hero2" src="uploads/Gemini_Generated_Image_mwwsbfmwwsbfmwws.png" placeholder="Sleep hier een sfeerfoto van een tractor" shape="rect" fit="cover" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot>
+      <!-- top scrim onder het menu -->
+      <div style="position:absolute;top:0;left:0;right:0;height:220px;background:linear-gradient(180deg,rgba(15,40,20,0.55) 0%,rgba(15,40,20,0.18) 45%,rgba(15,40,20,0) 100%);pointer-events:none;"></div>
+      <!-- kleurgradatie: groene schaduwen + warme gloed onderin -->
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,32,18,0.30) 0%,rgba(20,32,18,0.02) 26%,rgba(20,30,16,0) 46%,rgba(78,44,18,0.20) 72%,rgba(11,17,9,0.92) 100%);pointer-events:none;"></div>
+      <!-- vignet voor diepte -->
+      <div style="position:absolute;inset:0;background:radial-gradient(125% 95% at 50% 32%,rgba(10,16,8,0) 52%,rgba(9,14,7,0.55) 100%);pointer-events:none;"></div>
+      <!-- subtiele filmkorrel -->
+      <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);opacity:0.10;mix-blend-mode:overlay;pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;display:flex;align-items:flex-end;pointer-events:none;">
+        <div style="max-width:1180px;margin:0 auto;width:100%;padding:0 clamp(20px,5vw,26px) clamp(52px,8vh,96px);">
+          <div style="max-width:720px;">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap;">
+              <span style="width:42px;height:1px;background:rgba(255,255,255,0.55);"></span>
+              <span style="color:rgba(255,255,255,0.88);font-size:clamp(11px,2.7vw,12.5px);font-weight:600;letter-spacing:0.2em;text-transform:uppercase;">Vijfheerenlanden &amp; Alblasserwaard &middot; sinds 1997</span>
+            </div>
+            <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:500;color:#fff;font-size:clamp(2.4rem,8vw,5.1rem);line-height:1.04;margin:0 0 22px;text-shadow:0 2px 22px rgba(0,0,0,0.35);">Oud ijzer dat<br>blijft draaien</h1>
+            <p style="color:rgba(255,255,255,0.9);font-size:clamp(1.08rem,1.5vw,1.32rem);line-height:1.62;margin:0 0 36px;max-width:520px;">Ruim 915 liefhebbers van oude tractoren en stationaire motoren. Samen houden we ze rijdend, en de verhalen erachter levend.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:14px;pointer-events:auto;">
+              <button onClick="{{ go_lidworden }}" style="background:#1C7A2C;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:700;padding:15px 32px;border-radius:3px;">Word lid</button>
+              <button onClick="{{ go_agenda }}" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.55);cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:15px 32px;border-radius:3px;">Bekijk de agenda</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;margin-top:34px;flex-wrap:wrap;">
+              <span style="width:34px;height:1px;background:rgba(255,255,255,0.4);"></span>
+              <span style="color:rgba(255,255,255,0.78);font-size:13.5px;font-weight:500;letter-spacing:0.02em;">Puzzeltochten &middot; Toertochten &middot; De Snertrit &middot; Praatavonden</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section style="max-width:1180px;margin:0 auto;padding:clamp(64px,9vw,112px) 26px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,76px);align-items:center;">
+        <div>
+          <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">De vereniging</span>
+          <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:500;color:#22331F;font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.14;margin:16px 0 20px;">Sinds 1997 houden we het oude ijzer in beweging</h2>
+          <p style="color:#5C5746;font-size:17px;line-height:1.7;margin:0 0 16px;">In dat jaar reden een tiental vrienden uit Zederik voor het eerst samen uit. Inmiddels telt De Lange Slag ruim 915 leden en is het een van de grotere oude-tractorenverenigingen van het land.</p>
+          <p style="color:#5C5746;font-size:17px;line-height:1.7;margin:0;">We komen bijeen op puzzeltochten, toertochten, de Snertrit en de praatavonden. Zo blijven de trekkers die het naoorlogse platteland mechaniseerden bewaard, en rijden ze nog altijd mee.</p>
+          <div style="display:flex;gap:40px;margin-top:34px;border-top:1px solid #E0D7C5;padding-top:28px;flex-wrap:wrap;">
+            <div>
+              <div style="font-family:'Zilla Slab',Georgia,serif;font-weight:600;color:#22331F;font-size:2rem;line-height:1;">915+</div>
+              <div style="color:#8A7B5E;font-size:14px;font-weight:600;margin-top:6px;">leden</div>
+            </div>
+            <div>
+              <div style="font-family:'Zilla Slab',Georgia,serif;font-weight:600;color:#22331F;font-size:2rem;line-height:1;">1997</div>
+              <div style="color:#8A7B5E;font-size:14px;font-weight:600;margin-top:6px;">opgericht in Zederik</div>
+            </div>
+            <div>
+              <div style="font-family:'Zilla Slab',Georgia,serif;font-weight:600;color:#22331F;font-size:2rem;line-height:1;">3&times;</div>
+              <div style="color:#8A7B5E;font-size:14px;font-weight:600;margin-top:6px;">clubblad per jaar</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <image-slot id="dls-intro" placeholder="Sleep hier een sfeerfoto (staand werkt mooi)" shape="rect" fit="cover" style="width:100%;height:clamp(340px,42vw,520px);"></image-slot>
+          <div style="color:#8A7B5E;font-size:13px;font-style:italic;margin-top:12px;font-family:'Zilla Slab',Georgia,serif;">De ledenrit door de polders van de Alblasserwaard.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NIEUWS -->
+    <section style="background:#fff;border-top:1px solid #E7DECF;border-bottom:1px solid #E7DECF;">
+      <div style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,88px) 22px;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px;">
+          <div>
+            <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Laatste nieuws</span>
+            <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:clamp(1.7rem,3.2vw,2.4rem);letter-spacing:0;margin:10px 0 0;">Wat er speelt bij de club</h2>
+          </div>
+          <button onClick="{{ go_nieuws }}" style="background:none;border:1.5px solid #A8531F;color:#A8531F;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:11px 22px;border-radius:3px;">Alle berichten →</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;">
+          <sc-for list="{{ newsHome }}" as="n" hint-placeholder-count="3">
+            <article onClick="{{ go_nieuws }}" style="cursor:pointer;background:#FBF8F1;border:1px solid #E7DECF;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+              <image-slot id="{{ n.slot }}" src="{{ n.img }}" placeholder="Foto" shape="rect" fit="cover" style="width:100%;height:200px;"></image-slot>
+              <div style="padding:22px;display:flex;flex-direction:column;flex:1;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                  <span style="background:#EAF0E8;color:#2E4A34;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:4px 10px;border-radius:3px;">{{ n.tag }}</span>
+                  <span style="color:#9A917C;font-size:13px;font-weight:600;">{{ n.date }}</span>
+                </div>
+                <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.2rem;line-height:1.2;margin:0 0 10px;">{{ n.title }}</h3>
+                <p style="color:#5C5746;font-size:15px;line-height:1.6;margin:0;">{{ n.excerpt }}</p>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,88px) 22px;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px;">
+        <div>
+          <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Agenda</span>
+          <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:clamp(1.7rem,3.2vw,2.4rem);letter-spacing:0;margin:10px 0 0;">Aankomende ritten &amp; dagen</h2>
+        </div>
+        <button onClick="{{ go_agenda }}" style="background:none;border:1.5px solid #A8531F;color:#A8531F;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:11px 22px;border-radius:3px;">Volledige agenda →</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ eventsHome }}" as="e" hint-placeholder-count="3">
+          <article onClick="{{ go_agenda }}" style="cursor:pointer;background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:18px 22px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;">
+            <div style="flex-shrink:0;width:78px;height:78px;border-radius:4px;background:#2E4A34;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <span style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:30px;line-height:1;">{{ e.date }}</span>
+              <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;margin-top:3px;color:#C09A6A;">{{ e.month }}</span>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+                <span style="color:#A8531F;font-size:13px;font-weight:700;">{{ e.loc }}</span>
+              </div>
+              <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.18rem;margin:0 0 5px;">{{ e.title }}</h3>
+              <p style="color:#6E6857;font-size:14px;line-height:1.5;margin:0;">{{ e.desc }}</p>
+            </div>
+            <span style="flex-shrink:0;color:#A8531F;font-size:22px;font-weight:700;">→</span>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- VERKOOP + FOTOBOEK PREVIEW -->
+    <section style="background:#2E4A34;color:#fff;">
+      <div style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,88px) 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,64px);">
+        <div>
+          <span style="color:rgba(255,255,255,0.55);font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Verkooprubriek</span>
+          <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:0;margin:10px 0 22px;">Gevraagd &amp; aangeboden</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <sc-for list="{{ verkoopHome }}" as="v" hint-placeholder-count="3">
+              <button onClick="{{ go_verkoop }}" style="text-align:left;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);border-radius:4px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;">
+                <span style="flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:5px 10px;border-radius:3px;background:{{ v.tagBg }};color:{{ v.tagColor }};">{{ v.type }}</span>
+                <span style="color:#fff;font-size:15px;font-weight:600;line-height:1.35;">{{ v.title }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <button onClick="{{ go_verkoop }}" style="margin-top:20px;background:#A8531F;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:12px 24px;border-radius:3px;">Naar de verkooprubriek →</button>
+        </div>
+        <div>
+          <span style="color:rgba(255,255,255,0.55);font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Fotoboek</span>
+          <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:0;margin:10px 0 22px;">Sfeer van afgelopen ritten</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <sc-for list="{{ fotosHome }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ go_fotoboek }}" style="padding:0;border:none;cursor:pointer;background:none;border-radius:4px;overflow:hidden;position:relative;">
+                <image-slot id="{{ f.slot }}" src="{{ f.img }}" placeholder="Foto" shape="rect" fit="cover" style="width:100%;height:130px;"></image-slot>
+                <span style="position:absolute;left:10px;bottom:9px;color:#fff;font-size:12px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,0.6);">{{ f.title }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <button onClick="{{ go_fotoboek }}" style="margin-top:20px;background:rgba(255,255,255,0.14);color:#fff;border:1.5px solid rgba(255,255,255,0.5);cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;padding:12px 24px;border-radius:3px;">Naar het fotoboek →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,96px) 22px;">
+      <div style="background:#FBF8F1;border:1px solid #E7DECF;border-radius:4px;padding:clamp(36px,5vw,64px);text-align:center;">
+        <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:0;margin:0 0 14px;">Rij je met ons mee?</h2>
+        <p style="color:#5C5746;font-size:18px;line-height:1.6;max-width:560px;margin:0 auto 28px;">Word lid en ontvang het verenigingsblad, doe mee aan tochten en ontmoet ruim 915 liefhebbers van oud ijzer.</p>
+        <button onClick="{{ go_lidworden }}" style="background:#A8531F;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:17px;font-weight:700;padding:16px 36px;border-radius:4px;">Lid worden</button>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ===================== NIEUWS ===================== -->
+  <sc-if value="{{ show_nieuws }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Nieuws</span>
+    <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 6px;">Berichten van de club</h1>
+    <p style="color:#5C5746;font-size:17px;max-width:600px;margin:0 0 40px;">Mededelingen, verslagen en historie, vers van het erf.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <sc-for list="{{ newsAll }}" as="n" hint-placeholder-count="6">
+        <article style="background:#fff;border:1px solid #E7DECF;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <image-slot id="{{ n.slot }}" src="{{ n.img }}" placeholder="Foto" shape="rect" fit="cover" style="width:100%;height:200px;"></image-slot>
+          <div style="padding:22px;display:flex;flex-direction:column;flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <span style="background:#EAF0E8;color:#2E4A34;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:4px 10px;border-radius:3px;">{{ n.tag }}</span>
+              <span style="color:#9A917C;font-size:13px;font-weight:600;">{{ n.date }}</span>
+            </div>
+            <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.2rem;line-height:1.2;margin:0 0 10px;">{{ n.title }}</h3>
+            <p style="color:#5C5746;font-size:15px;line-height:1.6;margin:0 0 16px;flex:1;">{{ n.excerpt }}</p>
+            <span style="color:#A8531F;font-size:14px;font-weight:700;">Lees verder →</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== AGENDA ===================== -->
+  <sc-if value="{{ show_agenda }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Agenda</span>
+    <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 24px;">Evenementen &amp; ritten</h1>
+    <div style="display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap;">
+      <button onClick="{{ af_aankomend }}" style="background:{{ afbg_aankomend }};color:{{ afcol_aankomend }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Aankomend</button>
+      <button onClick="{{ af_verleden }}" style="background:{{ afbg_verleden }};color:{{ afcol_verleden }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Verleden</button>
+      <button onClick="{{ af_alle }}" style="background:{{ afbg_alle }};color:{{ afcol_alle }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Alle</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <sc-for list="{{ agendaList }}" as="e" hint-placeholder-count="4">
+        <article style="background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:20px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;width:88px;height:88px;border-radius:4px;background:{{ e.dateBg }};color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <span style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:34px;line-height:1;">{{ e.date }}</span>
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;margin-top:4px;color:#C09A6A;">{{ e.month }} {{ e.year }}</span>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <span style="color:#A8531F;font-size:13px;font-weight:700;">{{ e.loc }}</span>
+            <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.3rem;margin:5px 0;">{{ e.title }}</h3>
+            <p style="color:#6E6857;font-size:15px;line-height:1.55;margin:0;">{{ e.desc }}</p>
+          </div>
+          <span style="flex-shrink:0;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:6px 12px;border-radius:3px;background:{{ e.badgeBg }};color:{{ e.badgeColor }};">{{ e.statusLabel }}</span>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== FOTOBOEK ===================== -->
+  <sc-if value="{{ show_fotoboek }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Fotoboek</span>
+    <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 6px;">Foto's per evenement</h1>
+    <p style="color:#5C5746;font-size:17px;max-width:600px;margin:0 0 40px;">Klik op een album om de hele galerij te bekijken.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
+      <sc-for list="{{ fotosAll }}" as="f" hint-placeholder-count="6">
+        <article style="background:#fff;border:1px solid #E7DECF;border-radius:4px;overflow:hidden;cursor:pointer;">
+          <div style="position:relative;">
+            <image-slot id="{{ f.slot }}" src="{{ f.img }}" placeholder="Album-cover" shape="rect" fit="cover" style="width:100%;height:210px;"></image-slot>
+            <span style="position:absolute;right:12px;top:12px;background:rgba(35,58,41,0.9);color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:3px;">{{ f.count }}</span>
+          </div>
+          <div style="padding:18px 20px;">
+            <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.15rem;margin:0 0 4px;">{{ f.title }}</h3>
+            <span style="color:#9A917C;font-size:14px;font-weight:600;">{{ f.date }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== VERKOOP ===================== -->
+  <sc-if value="{{ show_verkoop }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Verkooprubriek</span>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 0;">Gevraagd &amp; aangeboden</h1>
+      <button onClick="{{ toggleVerkoopForm }}" style="background:#A8531F;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:12px 24px;border-radius:3px;">+ Advertentie plaatsen</button>
+    </div>
+
+    <sc-if value="{{ verkoopFormOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:28px 0 8px;background:#FBF8F1;border:1px solid #E7DECF;border-radius:4px;padding:clamp(24px,4vw,40px);animation:slideDown .3s ease;">
+        <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.5rem;margin:0 0 20px;">Plaats je eigen advertentie</h2>
+        <sc-if value="{{ sentVerkoop }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#EAF0E8;border:1px solid #B9CDB5;border-radius:12px;padding:16px 20px;color:#2E4A34;font-weight:600;">✓ Bedankt! Je advertentie is ingestuurd en wordt na controle geplaatst.</div>
+        </sc-if>
+        <sc-if value="{{ notSentVerkoop }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;">
+          <div style="grid-column:1/-1;display:flex;gap:10px;">
+            <span style="font-weight:600;font-size:14px;color:#26241D;align-self:center;">Type:</span>
+            <span style="background:#fff;border:1px solid #D8CFBE;border-radius:3px;padding:8px 16px;font-size:14px;font-weight:600;color:#A8531F;">Gevraagd</span>
+            <span style="background:#fff;border:1px solid #D8CFBE;border-radius:3px;padding:8px 16px;font-size:14px;font-weight:600;color:#5C5746;">Aangeboden</span>
+          </div>
+          <label style="display:block;"><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Titel</span><input placeholder="bijv. Te koop: Güldner G15" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <label style="display:block;"><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Je naam</span><input placeholder="Voor- en achternaam" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <label style="display:block;grid-column:1/-1;"><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Omschrijving</span><textarea rows="3" placeholder="Beschrijf wat je zoekt of aanbiedt…" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;resize:vertical;"></textarea></label>
+          <label style="display:block;"><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">E-mail</span><input placeholder="naam@email.nl" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <div style="display:flex;align-items:flex-end;"><button onClick="{{ submitVerkoop }}" style="background:#2E4A34;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:13px 28px;border-radius:3px;">Advertentie insturen</button></div>
+        </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;gap:10px;margin:32px 0;flex-wrap:wrap;">
+      <button onClick="{{ vf_alle }}" style="background:{{ vfbg_alle }};color:{{ vfcol_alle }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Alle</button>
+      <button onClick="{{ vf_gevraagd }}" style="background:{{ vfbg_gevraagd }};color:{{ vfcol_gevraagd }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Gevraagd</button>
+      <button onClick="{{ vf_aangeboden }}" style="background:{{ vfbg_aangeboden }};color:{{ vfcol_aangeboden }};border:1.5px solid #2E4A34;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:9px 20px;border-radius:3px;">Aangeboden</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;">
+      <sc-for list="{{ verkoopList }}" as="v" hint-placeholder-count="4">
+        <article style="background:#fff;border:1px solid #E7DECF;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+          <image-slot id="{{ v.slot }}" placeholder="Foto" shape="rect" fit="cover" style="width:100%;height:180px;"></image-slot>
+          <div style="padding:20px;flex:1;display:flex;flex-direction:column;">
+            <span style="align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:5px 11px;border-radius:3px;background:{{ v.tagBg }};color:{{ v.tagColor }};margin-bottom:12px;">{{ v.type }}</span>
+            <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.18rem;margin:0 0 8px;">{{ v.title }}</h3>
+            <p style="color:#5C5746;font-size:15px;line-height:1.55;margin:0 0 14px;flex:1;">{{ v.desc }}</p>
+            <span style="color:#9A917C;font-size:13px;font-weight:600;">Geplaatst door {{ v.by }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== PROMOTIE ===================== -->
+  <sc-if value="{{ show_promotie }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Promotie</span>
+    <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 6px;">Promotiemateriaal &amp; tractorbord</h1>
+    <p style="color:#5C5746;font-size:17px;max-width:620px;margin:0 0 40px;">Laat zien dat je trots lid bent van De Lange Slag. Bestel een tractorbord voor op je trekker of haal promotiemateriaal op bij een praatavond.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:start;">
+      <div style="background:#fff;border:1px solid #E7DECF;border-radius:4px;overflow:hidden;">
+        <image-slot id="dls-tractorbord" placeholder="Foto van het tractorbord" shape="rect" fit="cover" style="width:100%;height:260px;"></image-slot>
+        <div style="padding:26px;">
+          <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.5rem;margin:0 0 10px;">Het officiële tractorbord</h2>
+          <p style="color:#5C5746;font-size:15px;line-height:1.6;margin:0;">Een geëmailleerd bord met het logo van de vereniging, perfect voor op de trekker tijdens tochten en evenementen.</p>
+        </div>
+      </div>
+      <div style="background:#2E4A34;color:#fff;border-radius:4px;padding:clamp(24px,4vw,36px);">
+        <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:1.5rem;margin:0 0 20px;">Tractorbord bestellen</h2>
+        <sc-if value="{{ sentPromotie }}" hint-placeholder-val="{{ false }}">
+          <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:16px 20px;font-weight:600;">✓ Bedankt! Je bestelling is ontvangen. Je hoort z.s.m. van ons.</div>
+        </sc-if>
+        <sc-if value="{{ notSentPromotie }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Naam</span><input placeholder="Voor- en achternaam" style="width:100%;padding:12px 14px;border:none;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;color:#26241D;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Lidnummer (optioneel)</span><input placeholder="bijv. 0421" style="width:100%;padding:12px 14px;border:none;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;color:#26241D;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Aantal borden</span><input placeholder="1" style="width:100%;padding:12px 14px;border:none;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;color:#26241D;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Afleveradres</span><input placeholder="Straat, postcode, plaats" style="width:100%;padding:12px 14px;border:none;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;color:#26241D;"></label>
+          <button onClick="{{ submitPromotie }}" style="background:#A8531F;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:14px 28px;border-radius:3px;margin-top:6px;">Bestelling plaatsen</button>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== LINKS ===================== -->
+  <sc-if value="{{ show_links }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Links</span>
+    <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 6px;">Bevriende clubs &amp; verenigingen</h1>
+    <p style="color:#5C5746;font-size:17px;max-width:600px;margin:0 0 40px;">Verenigingen en organisaties waar we graag mee samenwerken.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="6">
+        <a href="#" style="text-decoration:none;background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:24px;display:flex;align-items:flex-start;gap:16px;">
+          <span style="flex-shrink:0;width:44px;height:44px;border-radius:11px;background:#EAF0E8;display:flex;align-items:center;justify-content:center;color:#2E4A34;font-size:20px;">↗</span>
+          <div>
+            <h3 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.12rem;margin:0 0 5px;">{{ l.name }}</h3>
+            <p style="color:#6E6857;font-size:14px;line-height:1.5;margin:0;">{{ l.desc }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== LID WORDEN ===================== -->
+  <sc-if value="{{ show_lidworden }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,60px);align-items:start;">
+      <div>
+        <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Lid worden</span>
+        <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 18px;">Word lid van De Lange Slag</h1>
+        <p style="color:#5C5746;font-size:17px;line-height:1.65;margin:0 0 24px;">Als lid krijg je het verenigingsblad (minimaal 3× per jaar), doe je mee aan toertochten, puzzeltochten, de Snertrit en de praatavonden, en ontmoet je ruim 915 liefhebbers van oude trekkers.</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;">
+          <li style="display:flex;gap:12px;align-items:center;color:#26241D;font-size:16px;font-weight:600;"><span style="color:#A8531F;font-size:20px;">✓</span> Verenigingsblad, 3× per jaar</li>
+          <li style="display:flex;gap:12px;align-items:center;color:#26241D;font-size:16px;font-weight:600;"><span style="color:#A8531F;font-size:20px;">✓</span> Toegang tot alle tochten &amp; evenementen</li>
+          <li style="display:flex;gap:12px;align-items:center;color:#26241D;font-size:16px;font-weight:600;"><span style="color:#A8531F;font-size:20px;">✓</span> Gezellige praatavonden door het jaar heen</li>
+          <li style="display:flex;gap:12px;align-items:center;color:#26241D;font-size:16px;font-weight:600;"><span style="color:#A8531F;font-size:20px;">✓</span> Onderdeel van het grootste netwerk in de regio</li>
+        </ul>
+      </div>
+      <div style="background:#FBF8F1;border:1px solid #E7DECF;border-radius:4px;padding:clamp(24px,4vw,40px);">
+        <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.5rem;margin:0 0 20px;">Aanmelden</h2>
+        <sc-if value="{{ sentLid }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#EAF0E8;border:1px solid #B9CDB5;border-radius:12px;padding:18px 20px;color:#2E4A34;font-weight:600;line-height:1.5;">✓ Welkom bij De Lange Slag! Je aanmelding is ontvangen. Het bestuur neemt binnenkort contact met je op.</div>
+        </sc-if>
+        <sc-if value="{{ notSentLid }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Naam</span><input placeholder="Voor- en achternaam" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Adres</span><input placeholder="Straat, postcode, plaats" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">E-mail</span><input placeholder="naam@email.nl" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+            <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Telefoon</span><input placeholder="06-..." style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          </div>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Welke tractor(en) heb je? (optioneel)</span><input placeholder="bijv. Ford 4000, Güldner G15" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <button onClick="{{ submitLid }}" style="background:#A8531F;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:700;padding:15px 28px;border-radius:3px;margin-top:6px;">Aanmelding versturen</button>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== CONTACT ===================== -->
+  <sc-if value="{{ show_contact }}" hint-placeholder-val="{{ false }}">
+  <main style="animation:fadeUp .45s ease;max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) 22px clamp(56px,8vw,96px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,60px);align-items:start;">
+      <div>
+        <span style="color:#8A7B5E;font-size:12px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;">Contact</span>
+        <h1 style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;color:#233A29;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:0;margin:10px 0 24px;">Neem contact op</h1>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:22px;">
+            <div style="font-size:13px;font-weight:700;color:#A8531F;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Adres</div>
+            <div style="color:#26241D;font-size:16px;line-height:1.5;">De Lange Slag<br>Hoge Giessen 22<br>4223 MC Hoornaar</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:22px;">
+            <div style="font-size:13px;font-weight:700;color:#A8531F;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">E-mail</div>
+            <a href="mailto:info@delangeslag.nl" style="color:#2E4A34;font-size:16px;font-weight:600;text-decoration:none;">info@delangeslag.nl</a>
+          </div>
+          <div style="background:#fff;border:1px solid #E7DECF;border-radius:4px;padding:22px;">
+            <div style="font-size:13px;font-weight:700;color:#A8531F;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Telefoon</div>
+            <div style="color:#26241D;font-size:16px;">06-46935867</div>
+            <div style="color:#9A917C;font-size:14px;margin-top:4px;">Na 17.00 uur · niet op maandagavond</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#FBF8F1;border:1px solid #E7DECF;border-radius:4px;padding:clamp(24px,4vw,40px);">
+        <h2 style="font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:#233A29;font-size:1.5rem;margin:0 0 20px;">Stuur ons een bericht</h2>
+        <sc-if value="{{ sentContact }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#EAF0E8;border:1px solid #B9CDB5;border-radius:12px;padding:18px 20px;color:#2E4A34;font-weight:600;line-height:1.5;">✓ Bedankt voor je bericht! We reageren zo snel mogelijk.</div>
+        </sc-if>
+        <sc-if value="{{ notSentContact }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Naam</span><input placeholder="Voor- en achternaam" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">E-mail</span><input placeholder="naam@email.nl" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;"></label>
+          <label><span style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">Bericht</span><textarea rows="4" placeholder="Waarmee kunnen we je helpen?" style="width:100%;padding:12px 14px;border:1px solid #D8CFBE;border-radius:10px;background:#fff;font-family:inherit;font-size:15px;resize:vertical;"></textarea></label>
+          <button onClick="{{ submitContact }}" style="background:#2E4A34;color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:700;padding:15px 28px;border-radius:3px;">Versturen</button>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="background:#233A29;color:#D6DDD2;">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,6vw,72px) 22px 32px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;">
+        <div style="max-width:320px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px;">
+            <span style="width:38px;height:38px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="width:16px;height:16px;border:3px solid #A8531F;border-radius:50%;"></span>
+            </span>
+            <span style="font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:19px;color:#fff;">De Lange Slag</span>
+          </div>
+          <p style="font-size:15px;line-height:1.6;color:#A9B5A4;margin:0;">Vereniging van liefhebbers en eigenaren van oude tractoren en stationaire motoren in de Vijfheerenlanden en Alblasserwaard. Sinds 1997.</p>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C09A6A;margin-bottom:16px;">Menu</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <button onClick="{{ go_nieuws }}" style="background:none;border:none;text-align:left;cursor:pointer;color:#D6DDD2;font-family:inherit;font-size:15px;padding:0;">Nieuws</button>
+            <button onClick="{{ go_agenda }}" style="background:none;border:none;text-align:left;cursor:pointer;color:#D6DDD2;font-family:inherit;font-size:15px;padding:0;">Agenda</button>
+            <button onClick="{{ go_fotoboek }}" style="background:none;border:none;text-align:left;cursor:pointer;color:#D6DDD2;font-family:inherit;font-size:15px;padding:0;">Fotoboek</button>
+            <button onClick="{{ go_verkoop }}" style="background:none;border:none;text-align:left;cursor:pointer;color:#D6DDD2;font-family:inherit;font-size:15px;padding:0;">Verkoop</button>
+            <button onClick="{{ go_lidworden }}" style="background:none;border:none;text-align:left;cursor:pointer;color:#D6DDD2;font-family:inherit;font-size:15px;padding:0;">Lid worden</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C09A6A;margin-bottom:16px;">Contact</div>
+          <div style="font-size:15px;line-height:1.7;color:#A9B5A4;">
+            Hoge Giessen 22<br>4223 MC Hoornaar<br>
+            <a href="mailto:info@delangeslag.nl" style="color:#D6DDD2;text-decoration:none;">info@delangeslag.nl</a><br>
+            06-46935867
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.12);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
+        <span style="font-size:13px;color:#8A968A;">© 2026 De Lange Slag · Alle rechten voorbehouden</span>
+        <a href="#" style="font-size:13px;color:#8A968A;text-decoration:none;">Privacyverklaring</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 'home',
+      menuOpen: false,
+      isMobile: (typeof window !== 'undefined' && window.innerWidth < 1080),
+      agendaFilter: 'aankomend',
+      verkoopFilter: 'alle',
+      verkoopFormOpen: false,
+      sent: { lid: false, contact: false, verkoop: false, promotie: false },
+    };
+  }
+
+  componentDidMount() {
+    this._onResize = () => {
+      const m = window.innerWidth < 1080;
+      if (m !== this.state.isMobile) this.setState({ isMobile: m });
+    };
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  go(page) {
+    this.setState({ page, menuOpen: false });
+    requestAnimationFrame(() => { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); } });
+  }
+
+  renderVals() {
+    const { page, isMobile, menuOpen, agendaFilter, verkoopFilter, verkoopFormOpen, sent } = this.state;
+    const ACCENT = '#A8531F', INK = '#39362E';
+    const pages = ['home','nieuws','agenda','fotoboek','verkoop','promotie','links','contact','lidworden'];
+
+    const v = {
+      page,
+      isMobile,
+      menuOpen,
+      desktopNav: !isMobile,
+      mobileNav: isMobile,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      verkoopFormOpen,
+      toggleVerkoopForm: () => this.setState(s => ({ verkoopFormOpen: !s.verkoopFormOpen })),
+    };
+
+    pages.forEach(p => {
+      v['go_' + p] = () => this.go(p);
+      v['nc_' + p] = (page === p) ? '#FFFFFF' : 'rgba(255,255,255,0.80)';
+      v['show_' + p] = (page === p);
+    });
+    v.notHome = (page !== 'home');
+    v.navBg = (page === 'home')
+      ? 'linear-gradient(180deg, rgba(18,42,20,0.55) 0%, rgba(18,42,20,0.12) 65%, rgba(18,42,20,0) 100%)'
+      : '#1C7A2C';
+    v.navShadow = (page === 'home') ? 'none' : '0 2px 12px rgba(0,0,0,0.13)';
+
+    // ---- NEWS ----
+    const newsAll = [
+      { slot:'n1', img:'uploads/pasted-1782851415031-0.png', tag:'Mededeling', date:'26 juni 2026', title:'Thema tocht gaat door', excerpt:'De thema tocht die voor zaterdag 27-06 op de planning staat gaat gewoon door. Verzamelen zoals gebruikelijk bij de loods.' },
+      { slot:'n2', img:'uploads/pasted-1782851428948-0.png', tag:'Agenda', date:'24 juni 2026', title:'Hooibouwdag verzet naar 4 juli', excerpt:'De Hooibouwdag in Lekkerkerk is vanwege de verwachte warmte verplaatst van 27 juni naar zaterdag 4 juli.' },
+      { slot:'n3', img:'uploads/pasted-1782851435760-0.png', tag:'Historie', date:'15 maart 2026', title:'Oude film Landbouwdag 28 augustus 1998', excerpt:'Via de mail ontvingen wij prachtig oud filmmateriaal van de Landbouwdag uit 1998. Een mooi stukje clubgeschiedenis.' },
+      { slot:'n4', tag:'Verslag', date:'12 november 2025', title:'Terugblik op een geslaagde Snertrit', excerpt:'Ondanks de regen reden ruim tachtig trekkers mee. Na afloop dampende snert in de loods. Het kon niet stuk.' },
+      { slot:'n5', tag:'Mededeling', date:'2 oktober 2025', title:'Nieuw verenigingsblad verschenen', excerpt:'De najaarseditie van ons verenigingsblad ligt op de mat. Met een uitgebreid verslag van de toertocht en techniektips.' },
+      { slot:'n6', tag:'Oproep', date:'8 september 2025', title:'Vrijwilligers gezocht voor de Landbouwdag', excerpt:'Voor onze jaarlijkse Landbouwdag zoeken we leden die willen helpen met opbouw, verkeer en catering.' },
+    ];
+    v.newsAll = newsAll;
+    v.newsHome = newsAll.slice(0, 3);
+
+    // ---- EVENTS ----
+    const events = [
+      { date:'04', month:'JUL', year:'2026', loc:'Lekkerkerk', title:'Hooibouwdag Poldertuffers', desc:'Demonstraties van hooibouw met historische trekkers en werktuigen.', status:'aankomend' },
+      { date:'18', month:'JUL', year:'2026', loc:'Zoelmond', title:'Toertocht Land van Maas en Waal', desc:'Tractorclub De Juiste Koers organiseert een mooie toertocht door het rivierenland.', status:'aankomend' },
+      { date:'25', month:'JUL', year:'2026', loc:'Panningen', title:'HMT Historisch Festival', desc:'45ste editie van het grootste historische festival, op 25 en 26 juli.', status:'aankomend' },
+      { date:'12', month:'SEP', year:'2026', loc:'Hoornaar', title:'Najaars praatavond', desc:'Gezellige avond om kennis, onderdelen en sterke verhalen uit te wisselen.', status:'aankomend' },
+      { date:'08', month:'NOV', year:'2025', loc:'Vijfheerenlanden', title:'Snertrit', desc:'De traditionele najaarsrit, afgesloten met dampende snert in de loods.', status:'verleden' },
+      { date:'11', month:'OKT', year:'2025', loc:'Groot-Ammers', title:'Toertocht Groot-Ammers', desc:'Een zonnige rit door de polders met ruim zeventig deelnemende trekkers.', status:'verleden' },
+    ];
+    const statusStyle = (st) => st === 'aankomend'
+      ? { badgeBg:'#EAF0E8', badgeColor:'#2E4A34', statusLabel:'Aankomend', dateBg:'#2E4A34' }
+      : { badgeBg:'#EFE6D8', badgeColor:'#9A6B3E', statusLabel:'Geweest', dateBg:'#8A7B5E' };
+    const decorate = (list) => list.map(e => ({ ...e, ...statusStyle(e.status) }));
+    v.eventsHome = decorate(events.filter(e => e.status === 'aankomend')).slice(0, 4);
+    let agendaList = events;
+    if (agendaFilter === 'aankomend') agendaList = events.filter(e => e.status === 'aankomend');
+    else if (agendaFilter === 'verleden') agendaList = events.filter(e => e.status === 'verleden');
+    v.agendaList = decorate(agendaList);
+    ['aankomend','verleden','alle'].forEach(f => {
+      v['af_' + f] = () => this.setState({ agendaFilter: f });
+      v['afbg_' + f] = (agendaFilter === f) ? '#2E4A34' : 'transparent';
+      v['afcol_' + f] = (agendaFilter === f) ? '#fff' : '#2E4A34';
+    });
+
+    // ---- VERKOOP ----
+    const tagFor = (t) => t === 'Gevraagd'
+      ? { tagBg:'#F0E0D6', tagColor:'#A44E2E' }
+      : { tagBg:'#EAF0E8', tagColor:'#2E4A34' };
+    const verkoop = [
+      { slot:'v1', type:'Gevraagd', title:'Vervoer met trekker voor 60-jarig huwelijk', by:'Dorus van Megen', desc:'Gezocht: iemand die met een mooie oude trekker een gouden bruiloft wil opluisteren in de regio.' },
+      { slot:'v2', type:'Aangeboden', title:'Güldner: diverse onderdelen', by:'De Lange Slag', desc:'Doorlopend gezocht én aangeboden: onderdelen voor Güldner trekkers. Vraag gerust naar de mogelijkheden.' },
+      { slot:'v3', type:'Aangeboden', title:'Veiling collectie Museumboerderij', by:'De Grote Glind', desc:'In maart wordt een bijzondere collectie historisch materiaal geveild. Kom gerust een kijkje nemen.' },
+      { slot:'v4', type:'Gevraagd', title:'Gezocht: spatborden Ford 4000', by:'J. de Bruin', desc:'Voor een restauratieproject ben ik op zoek naar originele spatborden in goede staat.' },
+      { slot:'v5', type:'Aangeboden', title:'Te koop: stationaire motor', by:'A. Verhoef', desc:'Mooie gerestaureerde stationaire motor, loopt prachtig. In overleg op te halen.' },
+    ];
+    const verkoopDec = verkoop.map(x => ({ ...x, ...tagFor(x.type) }));
+    v.verkoopHome = verkoopDec.slice(0, 3);
+    let vlist = verkoopDec;
+    if (verkoopFilter === 'gevraagd') vlist = verkoopDec.filter(x => x.type === 'Gevraagd');
+    else if (verkoopFilter === 'aangeboden') vlist = verkoopDec.filter(x => x.type === 'Aangeboden');
+    v.verkoopList = vlist;
+    ['alle','gevraagd','aangeboden'].forEach(f => {
+      v['vf_' + f] = () => this.setState({ verkoopFilter: f });
+      v['vfbg_' + f] = (verkoopFilter === f) ? '#2E4A34' : 'transparent';
+      v['vfcol_' + f] = (verkoopFilter === f) ? '#fff' : '#2E4A34';
+    });
+
+    // ---- FOTOS ----
+    const fotos = [
+      { slot:'f1', img:'uploads/pasted-1782851835343-0.png', title:'Snertrit', date:'8 november 2025', count:"48 foto's" },
+      { slot:'f2', img:'uploads/pasted-1782851854151-0.png', title:'Toertocht Groot-Ammers', date:'11 oktober 2025', count:"63 foto's" },
+      { slot:'f3', img:'uploads/pasted-1782851885499-0.png', title:'Trekkerbabes on Tour', date:'5 en 6 september 2025', count:"72 foto's" },
+      { slot:'f4', img:'uploads/pasted-1782851893674-0.png', title:'Landbouwdag', date:'28 augustus 2025', count:"120 foto's" },
+      { slot:'f5', title:'Voorjaars puzzeltocht', date:'18 mei 2025', count:"54 foto's" },
+      { slot:'f6', title:'Toertocht voorjaar', date:'12 april 2025', count:"66 foto's" },
+    ];
+    v.fotosAll = fotos;
+    v.fotosHome = fotos.slice(0, 4);
+
+    // ---- LINKS ----
+    v.links = [
+      { name:'Tractorclub De Juiste Koers', desc:'Bevriende club, organiseert toertochten in het rivierenland.' },
+      { name:'De Poldertuffers', desc:'Lekkerkerk: hooibouwdagen en demonstraties.' },
+      { name:'HMT Historisch Festival', desc:'Panningen: het grootste historische festival van het zuiden.' },
+      { name:'Federatie Historisch Bedrijfsmateriaal', desc:'Landelijke koepel voor verzamelaars en verenigingen.' },
+      { name:'Museumboerderij De Grote Glind', desc:'Agrarisch erfgoed en collecties uit de regio.' },
+      { name:'Oude Tractoren Nederland', desc:'Online platform voor liefhebbers van oud landbouwmaterieel.' },
+    ];
+
+    // ---- FORMS ----
+    const mkSubmit = (key) => () => this.setState(s => ({ sent: { ...s.sent, [key]: true } }));
+    v.submitLid = mkSubmit('lid');
+    v.submitContact = mkSubmit('contact');
+    v.submitVerkoop = mkSubmit('verkoop');
+    v.submitPromotie = mkSubmit('promotie');
+    v.sentLid = sent.lid; v.notSentLid = !sent.lid;
+    v.sentContact = sent.contact; v.notSentContact = !sent.contact;
+    v.sentVerkoop = sent.verkoop; v.notSentVerkoop = !sent.verkoop;
+    v.sentPromotie = sent.promotie; v.notSentPromotie = !sent.promotie;
+
+    return v;
+  }
+}
+</script>
+</body>
+</html>
