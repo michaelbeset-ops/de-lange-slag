@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verkooprubriek — De Lange Slag</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<nav class="site-nav site-nav--page">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">De Lange Slag</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="nieuws.html" class="nav-link">Nieuws</a>
+      <a href="agenda.html" class="nav-link">Agenda</a>
+      <a href="fotoboek.html" class="nav-link">Fotoboek</a>
+      <a href="verkoop.html" class="nav-link is-active">Verkoop</a>
+      <a href="promotie.html" class="nav-link">Promotie</a>
+      <a href="links.html" class="nav-link">Links</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="lid-worden.html" class="nav-cta">Lid worden</a>
+    </div>
+    <div class="nav-mobile-controls">
+      <a href="lid-worden.html" class="nav-cta nav-cta--mobile">Lid worden</a>
+      <button class="nav-burger" data-nav-burger aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-mobile-menu" data-nav-menu>
+    <div class="nav-mobile-menu-inner">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="nieuws.html" class="nav-mobile-link">Nieuws</a>
+      <a href="agenda.html" class="nav-mobile-link">Agenda</a>
+      <a href="fotoboek.html" class="nav-mobile-link">Fotoboek</a>
+      <a href="verkoop.html" class="nav-mobile-link is-active">Verkoop</a>
+      <a href="promotie.html" class="nav-mobile-link">Promotie</a>
+      <a href="links.html" class="nav-mobile-link">Links</a>
+      <a href="contact.html" class="nav-mobile-link">Contact</a>
+    </div>
+  </div>
+</nav>
+<div class="nav-spacer"></div>
+
+<main class="page-main">
+  <span class="eyebrow">Verkooprubriek</span>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <h1 class="page-title" style="margin:10px 0 0;">Gevraagd &amp; aangeboden</h1>
+    <button class="btn-rust btn-rust--sm" data-toggle-verkoop-form>+ Advertentie plaatsen</button>
+  </div>
+
+  <div class="form-panel is-hidden" style="margin:28px 0 8px;" data-verkoop-form-panel>
+    <h2>Plaats je eigen advertentie</h2>
+    <div class="confirmation is-hidden" data-form-confirmation>✓ Bedankt! Je advertentie is ingestuurd en wordt na controle geplaatst.</div>
+    <form class="form-grid form-grid--2col" data-dummy-form>
+      <div class="type-toggle field-span2">
+        <span style="font-weight:600;font-size:14px;">Type:</span>
+        <span class="type-pill type-pill--active">Gevraagd</span>
+        <span class="type-pill type-pill--inactive">Aangeboden</span>
+      </div>
+      <label class="field"><span>Titel</span><input placeholder="bijv. Te koop: Güldner G15"></label>
+      <label class="field"><span>Je naam</span><input placeholder="Voor- en achternaam"></label>
+      <label class="field field-span2"><span>Omschrijving</span><textarea rows="3" placeholder="Beschrijf wat je zoekt of aanbiedt…"></textarea></label>
+      <label class="field"><span>E-mail</span><input type="email" placeholder="naam@email.nl"></label>
+      <div style="display:flex;align-items:flex-end;"><button type="submit" class="btn-green">Advertentie insturen</button></div>
+    </form>
+  </div>
+
+  <div class="filter-row" style="margin:32px 0;">
+    <button class="filter-btn is-active" data-verkoop-filter="alle">Alle</button>
+    <button class="filter-btn" data-verkoop-filter="gevraagd">Gevraagd</button>
+    <button class="filter-btn" data-verkoop-filter="aangeboden">Aangeboden</button>
+  </div>
+
+  <div class="card-grid">
+    <article class="card card--white" data-verkoop-item data-type="gevraagd">
+      <div class="photo-placeholder" style="height:180px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-4-4 3-3-2-4 3"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="listing-tag listing-tag--gevraagd" style="align-self:flex-start;margin-bottom:12px;">Gevraagd</span>
+        <h3 class="card-title">Vervoer met trekker voor 60-jarig huwelijk</h3>
+        <p class="card-excerpt" style="flex:1;margin-bottom:14px;">Gezocht: iemand die met een mooie oude trekker een gouden bruiloft wil opluisteren in de regio.</p>
+        <span class="card-date">Geplaatst door Dorus van Megen</span>
+      </div>
+    </article>
+    <article class="card card--white" data-verkoop-item data-type="aangeboden">
+      <div class="photo-placeholder" style="height:180px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-4-4 3-3-2-4 3"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="listing-tag listing-tag--aangeboden" style="align-self:flex-start;margin-bottom:12px;">Aangeboden</span>
+        <h3 class="card-title">Güldner: diverse onderdelen</h3>
+        <p class="card-excerpt" style="flex:1;margin-bottom:14px;">Doorlopend gezocht én aangeboden: onderdelen voor Güldner trekkers. Vraag gerust naar de mogelijkheden.</p>
+        <span class="card-date">Geplaatst door De Lange Slag</span>
+      </div>
+    </article>
+    <article class="card card--white" data-verkoop-item data-type="aangeboden">
+      <div class="photo-placeholder" style="height:180px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-4-4 3-3-2-4 3"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="listing-tag listing-tag--aangeboden" style="align-self:flex-start;margin-bottom:12px;">Aangeboden</span>
+        <h3 class="card-title">Veiling collectie Museumboerderij</h3>
+        <p class="card-excerpt" style="flex:1;margin-bottom:14px;">In maart wordt een bijzondere collectie historisch materiaal geveild. Kom gerust een kijkje nemen.</p>
+        <span class="card-date">Geplaatst door De Grote Glind</span>
+      </div>
+    </article>
+    <article class="card card--white" data-verkoop-item data-type="gevraagd">
+      <div class="photo-placeholder" style="height:180px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-4-4 3-3-2-4 3"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="listing-tag listing-tag--gevraagd" style="align-self:flex-start;margin-bottom:12px;">Gevraagd</span>
+        <h3 class="card-title">Gezocht: spatborden Ford 4000</h3>
+        <p class="card-excerpt" style="flex:1;margin-bottom:14px;">Voor een restauratieproject ben ik op zoek naar originele spatborden in goede staat.</p>
+        <span class="card-date">Geplaatst door J. de Bruin</span>
+      </div>
+    </article>
+    <article class="card card--white" data-verkoop-item data-type="aangeboden">
+      <div class="photo-placeholder" style="height:180px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-4-4 3-3-2-4 3"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="listing-tag listing-tag--aangeboden" style="align-self:flex-start;margin-bottom:12px;">Aangeboden</span>
+        <h3 class="card-title">Te koop: stationaire motor</h3>
+        <p class="card-excerpt" style="flex:1;margin-bottom:14px;">Mooie gerestaureerde stationaire motor, loopt prachtig. In overleg op te halen.</p>
+        <span class="card-date">Geplaatst door A. Verhoef</span>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <span class="footer-logo-mark"><span class="footer-logo-dot"></span></span>
+          <span class="footer-logo-text">De Lange Slag</span>
+        </div>
+        <p class="footer-desc">Vereniging van liefhebbers en eigenaren van oude tractoren en stationaire motoren in de Vijfheerenlanden en Alblasserwaard. Sinds 1997.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Menu</div>
+        <div class="footer-links">
+          <a href="nieuws.html">Nieuws</a>
+          <a href="agenda.html">Agenda</a>
+          <a href="fotoboek.html">Fotoboek</a>
+          <a href="verkoop.html">Verkoop</a>
+          <a href="lid-worden.html">Lid worden</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact">
+          Hoge Giessen 22<br>4223 MC Hoornaar<br>
+          <a href="mailto:info@delangeslag.nl">info@delangeslag.nl</a><br>
+          06-46935867
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© 2026 De Lange Slag · Alle rechten voorbehouden</span>
+      <a href="privacy.html" class="footer-privacy">Privacyverklaring</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
