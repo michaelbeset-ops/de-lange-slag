@@ -357,4 +357,5 @@ main { animation: fadeUp .45s ease; }
 
 @media (max-width: 640px) {
   .hero-title { word-break: keep-all; }
+  .hero { height: 78vh; min-height: 600px; }
 }
